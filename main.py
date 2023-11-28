@@ -10,17 +10,23 @@ app = FastAPI()
 df_Sentiment_Analysis = pd.read_parquet("df_Sentiment_Analysis.parquet")
 
 @app.get('/Sentiment_Analysis')
-def sentiment_analysis(empresa_desarrolladora : str):
-    
-    # Filtrar el DataFrame por la empresa desarrolladora especificada
-    df_empresa = df_Sentiment_Analysis[df_Sentiment_Analysis['developer'] == empresa_desarrolladora]
+def buscar_desarrollador(desarrollador):
+    # Filtra el DataFrame para obtener la fila correspondiente al desarrollador
+    desarrollador =desarrollador.lower()
+    desarrollador_fila = df_Sentiment_Analysis[df_Sentiment_Analysis['Developer'] == desarrollador]
 
-    # Contar la cantidad de registros por análisis de sentimiento
-    conteo_sentimientos = df_empresa['sentiment_analysis'].value_counts()
+    # Extrae los valores de las columnas Negativo, Neutro y Positivo
+    negativo = desarrollador_fila['Negativo'].values[0]
+    neutro = desarrollador_fila['Neutro'].values[0]
+    positivo = desarrollador_fila['Positivo'].values[0]
 
-    # Crear el diccionario de resultados en el formato deseado
-    resultado = {empresa_desarrolladora: {'Negative': conteo_sentimientos.get(0, 0),
-                                           'Neutral': conteo_sentimientos.get(1, 0),
-                                           'Positive': conteo_sentimientos.get(2, 0)}}
+    # Crea un diccionario con la información en el formato solicitado
+    resultado = {
+        desarrollador: {
+            'Negative': negativo,
+            'Neutral': neutro,
+            'Positive': positivo
+        }
+    }
 
     return resultado

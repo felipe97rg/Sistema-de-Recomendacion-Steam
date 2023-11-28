@@ -2,6 +2,9 @@ from typing import Optional
 
 from fastapi import FastAPI
 
+df_reviews = pd.read_parquet("reviews_eda.parquet")
+
+
 app = FastAPI()
 
 
@@ -9,6 +12,7 @@ app = FastAPI()
 async def root():
     return {"message": "Hello World"}
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
+@app.get("/reviews")
+def reviews(Review_number: int):
+    a = df_reviews.iloc[2,5]
+    return {a}

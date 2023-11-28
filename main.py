@@ -17,7 +17,7 @@ async def root():
 
 @app.get("/reviews")
 def reviews(Review_number: int):
-    a = df_PlayTimeGenre.iloc[Review_number,5]
+    a = df_PlayTimeGenre.iloc[Review_number,3]
     return {a}
 
 # Endpoint de la función PlayTimeGenre: Debe devolver año con mas horas jugadas para dicho género. Ejemplo de retorno: {"Año de lanzamiento con más horas jugadas para Género X" : 2013}

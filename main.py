@@ -4,31 +4,23 @@ from fastapi import FastAPI
 
 import pandas as pd
 
-df_reviews = pd.read_parquet("reviews_eda.parquet")
-df_PlayTimeGenre = pd.read_parquet("df_PlayTimeGenre.parquet")
-
 
 app = FastAPI()
 
+df_Sentiment_Analysis = pd.read_csv("df_Sentiment_Analysis.csv")
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+@app.get('/Sentiment_Analysis')
+def sentiment_analysis(empresa_desarrolladora : str):
+    
+    # Filtrar el DataFrame por la empresa desarrolladora especificada
+    df_empresa = df_Sentiment_Analysis[df_Sentiment_Analysis['developer'] == empresa_desarrolladora]
 
-@app.get("/reviews")
-def reviews(Review_number: int):
-    a = df_PlayTimeGenre.iloc[Review_number,3]
-    return {a}
+    # Contar la cantidad de registros por análisis de sentimiento
+    conteo_sentimientos = df_empresa['sentiment_analysis'].value_counts()
 
-# Endpoint de la función PlayTimeGenre: Debe devolver año con mas horas jugadas para dicho género. Ejemplo de retorno: {"Año de lanzamiento con más horas jugadas para Género X" : 2013}
-@app.get('/PlayTimeGenre')
-def PlayTimeGenre(genero : str):
-    # Filtrar el DataFrame para obtener solo las filas que contienen el género específico
-    filtro_genero = df_PlayTimeGenre['genres'].str.contains(genero, case=False, na=False)
-    df_filtrado = df_PlayTimeGenre[filtro_genero]
-    df_agrupado = df_filtrado.groupby('year')['playtime_forever'].sum().reset_index()
-    # Encontrar el año con la mayor suma de 'playtime_forever'
-    df_agrupado['year'] = df_agrupado['year'].astype(int)
-    anio_mayor_suma = df_agrupado.loc[df_agrupado['playtime_forever'].idxmax(), 'year']
-    respuesta = {f"Año de lanzamiento con más horas jugadas para Género el {genero}": anio_mayor_suma}
-    return respuesta
+    # Crear el diccionario de resultados en el formato deseado
+    resultado = {empresa_desarrolladora: {'Negative': conteo_sentimientos.get(0, 0),
+                                           'Neutral': conteo_sentimientos.get(1, 0),
+                                           'Positive': conteo_sentimientos.get(2, 0)}}
+
+    return resultado

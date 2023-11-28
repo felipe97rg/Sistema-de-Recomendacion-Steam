@@ -2,6 +2,8 @@ from typing import Optional
 
 from fastapi import FastAPI
 
+import pandas as pd
+
 df_reviews = pd.read_parquet("reviews_eda.parquet")
 
 
@@ -14,5 +16,5 @@ async def root():
 
 @app.get("/reviews")
 def reviews(Review_number: int):
-    a = df_reviews.iloc[2,5]
+    a = df_reviews.iloc[Review_number,5]
     return {a}

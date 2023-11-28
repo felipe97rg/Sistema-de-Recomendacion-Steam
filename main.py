@@ -7,7 +7,7 @@ import pandas as pd
 
 app = FastAPI()
 
-df_Sentiment_Analysis = pd.read_csv("df_Sentiment_Analysis.csv")
+df_Sentiment_Analysis = pd.read_csv("df_Sentiment_Analysis.parquet")
 
 @app.get('/Sentiment_Analysis')
 def sentiment_analysis(empresa_desarrolladora : str):

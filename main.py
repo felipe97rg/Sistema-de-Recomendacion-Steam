@@ -10,7 +10,7 @@ app = FastAPI()
 df_Sentiment_Analysis = pd.read_parquet("df_Sentiment_Analysis.parquet")
 
 @app.get('/Sentiment_Analysis')
-def buscar_desarrollador(desarrollador):
+def Sentiment_Analysis(desarrollador):
     # Filtra el DataFrame para obtener la fila correspondiente al desarrollador
     desarrollador =desarrollador.lower()
     desarrollador_fila = df_Sentiment_Analysis[df_Sentiment_Analysis['Developer'] == desarrollador]

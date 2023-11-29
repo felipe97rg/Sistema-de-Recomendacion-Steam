@@ -103,7 +103,6 @@ def Sentiment_analysis(desarrollador):
             'Positive': positivo
         }
     }
-
     return resultado
 
 @app.get('/recomendacion_usuario')

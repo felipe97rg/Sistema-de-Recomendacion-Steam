@@ -4,6 +4,9 @@ from fastapi import FastAPI
 
 import pandas as pd
 
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
 
 app = FastAPI()
 
@@ -12,7 +15,7 @@ df_UserForGenre = pd.read_parquet("df_UserForGenre.parquet")
 df_UserRecommend = pd.read_parquet("df_UserRecommend.parquet")
 df_UserWorstDeveloper = pd.read_parquet("df_UserWorstDeveloper.parquet")
 df_Sentiment_Analysis = pd.read_parquet("df_Sentiment_Analysis.parquet")
-
+df_ml = pd.read_parquet("df_ML.parquet")
 
 # Endpoint de la función PlayTimeGenre: Debe devolver año con mas horas jugadas para dicho género. Ejemplo de retorno: {"Año de lanzamiento con más horas jugadas para Género X" : 2013}
 @app.get('/PlayTimeGenre')
@@ -102,3 +105,36 @@ def Sentiment_analysis(desarrollador):
     }
 
     return resultado
+
+@app.get('/recomendacion_usuario')
+def recomendacion_usuario(user_id :str):
+    # Construye una matriz de usuarios y juegos
+    user_game_matrix = pd.crosstab(df_ml['user_id'], df_ml['title'])
+
+    try:
+        # Encuentra el índice del usuario en la matriz
+        user_index = user_game_matrix.index.get_loc(user_id)
+    except KeyError:
+        print(f"El usuario {user_id} no está presente en los datos.")
+        return None
+
+    # Calcula la similitud de coseno entre los usuarios
+    cosine_similarities = cosine_similarity(user_game_matrix, user_game_matrix)
+
+    # Obtén las similitudes de coseno para el usuario dado
+    similar_users = cosine_similarities[user_index]
+
+    # Encuentra los juegos que el usuario no ha jugado
+    games_played = user_game_matrix.loc[user_id]
+    unrated_games = games_played[games_played == 0].index
+
+    # Calcula las puntuaciones de recomendación sumando las similitudes de usuarios para los juegos no jugados
+    recommendation_scores = user_game_matrix.loc[:, unrated_games].multiply(similar_users, axis=0).sum(axis=0)
+
+    # Ordena las recomendaciones por puntuación descendente
+    recommendations = recommendation_scores.sort_values(ascending=False).index.tolist()
+
+    # Limita las recomendaciones a los primeros 5 juegos
+    top_recommendations = recommendations[:5]
+
+    return top_recommendations

@@ -65,24 +65,20 @@ def UsersRecommend(año: int):
 
 
 @app.get('/UsersWorstDeveloper')
-def UserWorstDeveloper(year):
+def UserWorstDeveloper(year, top_n=3):
     # Filtrar el DataFrame por el año especificado
     df_filtered = df_UserWorstDeveloper[df_UserWorstDeveloper['year_posted'] == year]
 
-    # Agrupar y contar por desarrollador
-    developer_counts = df_filtered['developer'].value_counts().reset_index()
-    developer_counts.columns = ['developer', 'count']
+    # Contar la cantidad de publicaciones por desarrollador
+    developer_counts = df_filtered['developer'].value_counts()
 
-    # Ordenar por la cantidad en orden descendente
-    developer_counts = developer_counts.sort_values(by='count', ascending=False)
-
-    # Tomar los primeros tres resultados
-    top_three_developers = developer_counts.head(3)
+    # Tomar los primeros N resultados
+    top_developers = developer_counts.head(top_n)
 
     # Crear la lista con el formato solicitado
-    result_list = [{"Puesto {}: {}".format(i + 1, row['developer']): row['count']} for i, row in top_three_developers.iterrows()]
+    result_list = [{"Puesto {}: {}".format(i + 1, developer): count} for i, (developer, count) in enumerate(top_developers.items())]
 
-    return result_list
+    return print(result_list)
 
 
 @app.get('/Sentiment_Analysis')

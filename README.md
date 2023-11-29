@@ -47,6 +47,9 @@ Una vez completadas las  etapas anteriores los datos se encuentran preparados pa
 
 
 
+## Video
+En el siguiente enlace podras encontrar un video con un pequeño resumen acerca del proyecto
+
 ## Requisitos
 
 Asegúrate de tener instaladas las siguientes bibliotecas antes de ejecutar el código:

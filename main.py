@@ -65,7 +65,7 @@ def UsersRecommend(año: int):
 
 
 @app.get('/UsersWorstDeveloper')
-def UserWorstDeveloper(year, top_n=3):
+def UserWorstDeveloper(year):
     # Filtrar el DataFrame por el año especificado
     df_filtered = df_UserWorstDeveloper[df_UserWorstDeveloper['year_posted'] == year]
 
@@ -73,7 +73,7 @@ def UserWorstDeveloper(year, top_n=3):
     developer_counts = df_filtered['developer'].value_counts()
 
     # Tomar los primeros N resultados
-    top_developers = developer_counts.head(top_n)
+    top_developers = developer_counts.head(3)
 
     # Crear la lista con el formato solicitado
     result_list = [{"Puesto {}: {}".format(i + 1, developer): count} for i, (developer, count) in enumerate(top_developers.items())]

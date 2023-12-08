@@ -1,4 +1,4 @@
-https://github.com/felipe97rg/Sistema-de-Recomendacion-Steam/blob/main/Steam.jpg
+https://raw.githubusercontent.com/felipe97rg/Sistema-de-Recomendacion-Steam/master/Steam.jpg
 # Analisis de datos de la plataforma STEAM
 
 Este es mi proyecto de ciencia de datos para la etapa de labs del bootcamp de soy henry donde buscaremos implementar las habilidades obtenidas durante la etape de aprendizaje.

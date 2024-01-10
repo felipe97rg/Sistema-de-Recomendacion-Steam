@@ -1,6 +1,6 @@
 # Analisis de datos de la plataforma STEAM
 
-Este es mi proyecto de ciencia de datos para la etapa de labs del bootcamp de soy henry donde buscaremos implementar las habilidades obtenidas durante la etape de aprendizaje.
+Este es mi proyecto de ciencia de datos para la etapa de labs del bootcamp de soy henry donde buscaremos implementar las habilidades obtenidas durante la etapa de aprendizaje.
 ## Descripción
 
 Tomando el rol de cientifico de datos de la plataforma STEAM en este proyecto que tiene como objetivo crear un sistema de recomendacion de los juegos basado en los datos suministrados por la plataforma. Se llevaran acabo 3 diferentes procesos, desde la extraccion y tratamiento de los datos pasando por un analisis de los mismos hasta la implementacion del sistema de recomendacion.

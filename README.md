@@ -20,7 +20,7 @@ https://drive.google.com/drive/folders/1HqBG2-sUkz_R3h1dZU5F2uAzpRn7BSpj
 
 ## Etapa de analisis de datos
 En esta etapa se realizo el EDA, analisis exploratorio de datos donde empezamos con una conversion de los datos verificanddo datos nulos, duplicados, outliers y el formato de los datos para posteriormente realizar el analisis de estos mediante garficos.
-#### Link: https://github.com/felipe97rg/proyecto_3/blob/main/EDA_17.ipynb
+#### Link: https://github.com/felipe97rg/proyecto_3/blob/main/EDA.ipynb
 
 ## Sistema de recomendacion
 Una vez completadas las  etapas anteriores los datos se encuentran preparados para realazar las respectivas funciones y el sistema de recomendacion los cuales podran ser consultados mediante el framework FastAPI 
